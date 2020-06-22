@@ -22,3 +22,7 @@ status: {}
 
 Use -o yaml to output the resource definition
 
+Execute a bash on a pod:
+
+  kubectl exec --stdin --tty <pod-name> -- /bin/bash
+
