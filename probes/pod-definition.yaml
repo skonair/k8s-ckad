@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp
+  labels:
+    name: simple-webapp
+spec:
+  containers:
+  - name: simple-webapp
+    image: simple-webapp
+    ports:
+      - containerPort: 8080
+    
+    readinessProbe:
+      httpGet:
+        path: /api/ready
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 8  # default is 3
+
+    readinessProbe:
+      tcpSocket:
+        port: 3306
+
+    readinessProbe:
+      exec:
+        command:
+          - cat
+          - /app/is_ready
+
+    livenessProbe:
+      httpGet:
+        path: /api/healthy
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 8  # default is 3
+      
